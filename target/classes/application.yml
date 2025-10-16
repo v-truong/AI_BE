@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/aicode
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 30000
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+jwt:
+  keys:
+    private: classpath:keys/private.pem
+    public: classpath:keys/public.pem
+  access:
+    expires-in-seconds: 3600        # 1 giờ
+  refresh:
+    expires-in-seconds: 604800      # 7 ngày
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+    com.bank: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
