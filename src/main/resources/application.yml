@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/aicode
-    username: root
-    password:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://db:5432/digital_bank
+    username: digital_bank
+    password: digital_bank
+    driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
       minimum-idle: 2
