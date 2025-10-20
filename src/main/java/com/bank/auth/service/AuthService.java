@@ -51,14 +51,17 @@ public class AuthService {
     }
 
     public OtpChallengeResponse requestOtp(OtpLoginRequest req) {
-        String challenge = otpService.createChallenge(req.getIdentity());
-        return new OtpChallengeResponse(challenge, "sms");
+        OtpData otpData = otpService.createChallenge(req.getIdentity());
+        return new OtpChallengeResponse(otpData.getChallengeId(), "sms", otpData.getOtp());
     }
 
     public AuthResponse verifyOtp(OtpVerifyRequest req) {
         String userId = otpService.verifyChallenge(req.getChallengeId(), req.getOtp());
+        System.out.println("OTP verified for userId: " + userId);
         Optional<User> uOpt = userRepository.findById(userId);
-        if (uOpt.isEmpty()) throw new RuntimeException("User not found for OTP");
+         if (uOpt.isEmpty()){uOpt = userRepository.findByPhoneOrEmail(userId, userId);}
+        if (uOpt.isEmpty()){ throw new RuntimeException("User not found for OTP");
+    }
         User user = uOpt.get();
         String access = jwtService.generateAccessToken(user.getId());
         String refresh = jwtService.generateRefreshToken(user.getId());

@@ -1,6 +1,8 @@
 package com.bank.auth.security;
 
 import io.jsonwebtoken.*;
+import jakarta.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,6 @@ public class JwtService {
     private final RSAPublicKey publicKey;
     private final long accessExpirySeconds;
     private final long refreshExpirySeconds;
-
     public JwtService(
             @Value("${jwt.keys.private}") Resource privateKeyRes,
             @Value("${jwt.keys.public}") Resource publicKeyRes,
@@ -89,7 +90,9 @@ public class JwtService {
     public long getRefreshExpirySeconds() {
         return refreshExpirySeconds;
     }
-
+     public String extractUserId(String token) {
+        return extractAllClaims(token).getSubject();
+    }
     public Jws<Claims> parseToken(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(publicKey)
@@ -115,5 +118,30 @@ public class JwtService {
         } catch (Exception e) {
             return false;
         }
+    }
+    public boolean isTokenValid(String token, String userId) {
+        String extractedUserId = extractUserId(token);
+        return (extractedUserId.equals(userId) && validateAccessToken(token));
+    }
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(publicKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+    public java.util.Collection<org.springframework.security.core.authority.SimpleGrantedAuthority> getAuthorities(String token) {
+        Claims claims = extractAllClaims(token);
+        java.util.List<String> roles = claims.get("roles", java.util.List.class);
+        java.util.Collection<org.springframework.security.core.authority.SimpleGrantedAuthority> authorities = new java.util.ArrayList<>();
+        if (roles != null) {
+            for (String role : roles) {
+                authorities.add(new org.springframework.security.core.authority.SimpleGrantedAuthority(role));
+            }
+        }
+        return authorities;
+    }
+    public String getUserIdFromToken(String token) {
+        return extractAllClaims(token).getSubject();
     }
 }

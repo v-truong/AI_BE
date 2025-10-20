@@ -35,29 +35,29 @@ public class AuthController {
         return ResponseEntity.ok(authService.verifyOtp(req));
     }
 
-    @PostMapping("/token/refresh")
-    public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshTokenRequest req){
-        return ResponseEntity.ok(authService.refresh(req));
-    }
+    // @PostMapping("/token/refresh")
+    // public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshTokenRequest req){
+    //     return ResponseEntity.ok(authService.refresh(req));
+    // }
 
-    @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest req){
-        return ResponseEntity.ok(authService.register(req));
-    }
+    // @PostMapping("/register")
+    // public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest req){
+    //     return ResponseEntity.ok(authService.register(req));
+    // }
 
-    @PostMapping("/device/bind")
-    public ResponseEntity<DeviceResponse> bindDevice(@RequestBody DeviceBindRequest req){
-        return ResponseEntity.ok(deviceService.bindDevice(req));
-    }
+    // @PostMapping("/device/bind")
+    // public ResponseEntity<DeviceResponse> bindDevice(@RequestBody DeviceBindRequest req){
+    //     return ResponseEntity.ok(deviceService.bindDevice(req));
+    // }
 
-    @GetMapping("/device")
-    public ResponseEntity<List<DeviceResponse>> listDevices(@RequestParam("userId") String userId){
-        return ResponseEntity.ok(deviceService.listDevices(userId));
-    }
+    // @GetMapping("/device")
+    // public ResponseEntity<List<DeviceResponse>> listDevices(@RequestParam("userId") String userId){
+    //     return ResponseEntity.ok(deviceService.listDevices(userId));
+    // }
 
-    @DeleteMapping("/device/{id}")
-    public ResponseEntity<GenericResponse> deleteDevice(@PathVariable("id") String id){
-        deviceService.deleteDevice(id);
-        return ResponseEntity.ok(new GenericResponse(true));
-    }
+    // @DeleteMapping("/device/{id}")
+    // public ResponseEntity<GenericResponse> deleteDevice(@PathVariable("id") String id){
+    //     deviceService.deleteDevice(id);
+    //     return ResponseEntity.ok(new GenericResponse(true));
+    // }
 }

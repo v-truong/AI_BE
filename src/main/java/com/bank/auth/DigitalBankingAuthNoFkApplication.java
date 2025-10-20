@@ -9,3 +9,4 @@ public class DigitalBankingAuthNoFkApplication {
         SpringApplication.run(DigitalBankingAuthNoFkApplication.class, args);
     }
 }
+   

@@ -18,3 +18,12 @@
         "redhat.vscode-yaml",
         "esbenp.prettier-vscode"
       ]
+    }
+  },
+
+  "forwardPorts": [8080, 5432],
+
+  "postCreateCommand": "chmod +x ./gradlew || true && ./gradlew build -x test",
+
+  "remoteUser": "vscode"
+}

@@ -31,7 +31,8 @@ jwt:
     expires-in-seconds: 604800      # 7 ngày
 
 server:
-  port: 8080
+  port: 8082
+  address: 0.0.0.0
 
 logging:
   level:
@@ -39,3 +40,9 @@ logging:
     com.bank: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+springdoc:
+  swagger-ui:
+    try-it-out-enabled: true
+    disable-swagger-default-url: true
+    url: /v3/api-docs
+    display-request-duration: true

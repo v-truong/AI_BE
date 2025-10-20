@@ -2,6 +2,8 @@ package com.bank.auth.service.otp;
 
 import org.springframework.stereotype.Service;
 
+import com.bank.auth.dto.OtpData;
+
 import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
@@ -18,7 +20,8 @@ public class OtpService {
 
     private final Map<String, OtpEntry> store = new ConcurrentHashMap<>();
 
-    public String createChallenge(String identity){
+    public OtpData createChallenge(String identity){
+        OtpData otpData = new OtpData();
         String challengeId = UUID.randomUUID().toString();
         OtpEntry e = new OtpEntry();
         e.userId = identity; // identity used as userId/phone shortcut for demo
@@ -26,7 +29,9 @@ public class OtpService {
         e.expiresAt = Instant.now().plusSeconds(120);
         store.put(challengeId, e);
         System.out.println("OTP for challenge " + challengeId + " => " + e.otp);
-        return challengeId;
+        otpData.setChallengeId(challengeId);
+        otpData.setOtp(e.otp); // for testing/demo purposes
+        return otpData;
     }
 
     public String verifyChallenge(String challengeId, String otp){
